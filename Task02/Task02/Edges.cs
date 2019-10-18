@@ -13,9 +13,9 @@ namespace Task02
         
         public override int GetHashCode()             
         {  
-            int hash = 13;
-            hash = (hash * 7) + FirstVertex.GetHashCode();
-            hash = (hash * 7) + SecondVertex.GetHashCode();
+            int hash = 113;
+            hash += (hash * 997) + FirstVertex;
+            hash += (hash * 997) + SecondVertex;
             return hash;
         }
         

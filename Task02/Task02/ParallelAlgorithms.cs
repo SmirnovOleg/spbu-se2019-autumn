@@ -12,8 +12,10 @@ namespace Task02
             int[] minEdgeToMST = new int[numVertices];
             Utils.Fill(minEdgeToMST, Int32.MaxValue);
             minEdgeToMST[0] = 0;
+            
             bool[] used = new bool[numVertices];
             Utils.Fill(used, false);
+            
             var edgesMap = new Dictionary<Edge, int>();
             edges.ForEach(weightedEdge =>
             {
@@ -169,33 +171,6 @@ namespace Task02
                 foreach (Thread thread in workerThreads)
                 {
                     thread.Join();
-                }
-            }
-
-            return dist;
-        }
-        
-        public static int[,] RunFloyd(List<WeightedEdge> edges, int numVertices)
-        {
-            int[,] dist = new int[numVertices, numVertices];
-            Utils.FillMatrix(dist, Int32.MaxValue);
-            for (int i = 0; i < numVertices; i++)
-                dist[i, i] = 0;
-            foreach (var edge in edges)
-            {
-                int u = edge.FirstVertex, v = edge.SecondVertex, cost = edge.Cost;
-                dist[u, v] = dist[v, u] = cost;
-            }
-            
-            for (int k = 0; k < numVertices; k++)
-            {
-                for (int i = 0; i < numVertices; ++i)
-                {
-                    for (int j = 0; j < numVertices; ++j)
-                    {
-                        if (dist[i, k] != Int32.MaxValue && dist[k, j] != Int32.MaxValue)
-                            dist[i, j] = Math.Min(dist[i, j], dist[i, k] + dist[k, j]);
-                    }
                 }
             }
 

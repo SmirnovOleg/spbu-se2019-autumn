@@ -8,7 +8,7 @@ namespace Task02
     {
         static void Main(string[] args)
         {
-            //try
+            try
             {
                 Utils.GenerateRandomGraph(Config.InputFileName);
 
@@ -30,17 +30,19 @@ namespace Task02
                     edges.Add(new WeightedEdge(u, v, cost));
                 }
                 
-                /*int[,] dist1 = Algorithms.RunParallelFloyd(edges, numVertices);
-                int[,] dist2 = Algorithms.RunFloyd(edges, numVertices);
+                /*int[,] dist1 = ParallelAlgorithms.RunParallelFloyd(edges, numVertices);
+                int[,] dist2 = SequentialAlgorithms.RunFloyd(edges, numVertices);
                 Utils.PrintMatrix(dist1);
                 Console.WriteLine();
                 Utils.PrintMatrix(dist2);
                 Console.WriteLine($"Equals: {Utils.MatrixEquals(dist1, dist2)}");*/
                 
-                int cost1 = ParallelAlgorithms.RunParallelPrim(edges, numVertices);
-                Console.WriteLine(cost1);
+                /*int cost1 = ParallelAlgorithms.RunParallelPrim(edges, numVertices);
+                int cost2 = SequentialAlgorithms.RunPrim(edges, numVertices);
+                Console.WriteLine($"Equals {cost1} {cost2}");*/
+                
             }
-           /* catch (Exception ex)
+            catch (Exception ex)
             {
                 switch (ex)
                 {
@@ -56,7 +58,7 @@ namespace Task02
                 }
 
                 throw;
-            }*/
+            }
         }
     }
 }
