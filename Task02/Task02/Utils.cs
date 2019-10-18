@@ -52,6 +52,15 @@ namespace Task02
             }
         }
         
+        public static void PrintArray<T>(T[] array)
+        {
+            foreach (var current in array)
+            {
+                Console.Write($"{current} ");
+            }
+            Console.WriteLine();
+        }
+        
         public static void PrintMatrix<T>(T[,] matrix)
         {
             for (int i = 0; i < matrix.GetLength(0); i++)
@@ -72,8 +81,8 @@ namespace Task02
             using StreamWriter writer = File.CreateText(finalPath);
             
             var random = new Random();
-            int n = random.Next(Config.MinNumVertices, Config.MaxNumVertices);
-            int m = random.Next(Config.MinNumEdges, n * (n - 1) / 2);
+            int n = random.Next(Config.MinNumVertices, Config.MaxNumVertices + 1);
+            int m = random.Next(Config.MinNumEdges, n * (n - 1) / 2 + 1);
             int[,] graph = new int[n, n];
             int[] degree = new int[n];
             
@@ -89,7 +98,7 @@ namespace Task02
                 degree[v]++;
                 degree[u]++;
                 graph[u, v] = graph[v, u] = 1;
-                int cost = random.Next(Config.MinEdgeCost, Config.MaxEdgeCost);
+                int cost = random.Next(Config.MinEdgeCost, Config.MaxEdgeCost + 1);
                 writer.WriteLine($"{Math.Min(u, v) + 1} {Math.Max(u, v) + 1} {cost}");
             }
         }

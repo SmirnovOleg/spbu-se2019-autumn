@@ -8,7 +8,7 @@ namespace Task02
     {
         static void Main(string[] args)
         {
-            try
+            //try
             {
                 Utils.GenerateRandomGraph(Config.InputFileName);
 
@@ -16,7 +16,7 @@ namespace Task02
                 string projectDirectory = Directory.GetParent(workingDirectory)?.Parent?.Parent?.FullName;
                 using StreamReader reader = new StreamReader(Path.Join(projectDirectory, Config.InputFileName));
                 var input = reader.ReadLine().Split(' ');
-                List<Edge> edges = new List<Edge>();
+                List<WeightedEdge> edges = new List<WeightedEdge>();
 
                 int numVertices = int.Parse(input[0]);
                 int numEdges = int.Parse(input[1]);
@@ -27,8 +27,7 @@ namespace Task02
                     int u = int.Parse(input[0]) - 1;
                     int v = int.Parse(input[1]) - 1;
                     int cost = int.Parse(input[2]);
-                    edges.Add(new Edge(u, v, cost));
-                    edges.Add(new Edge(v, u, cost));
+                    edges.Add(new WeightedEdge(u, v, cost));
                 }
                 
                 /*int[,] dist1 = Algorithms.RunParallelFloyd(edges, numVertices);
@@ -38,9 +37,10 @@ namespace Task02
                 Utils.PrintMatrix(dist2);
                 Console.WriteLine($"Equals: {Utils.MatrixEquals(dist1, dist2)}");*/
                 
-                //int cost1 = Algorithms.RunParallelPrim(edges, numVertices);
+                int cost1 = ParallelAlgorithms.RunParallelPrim(edges, numVertices);
+                Console.WriteLine(cost1);
             }
-            catch (Exception ex)
+           /* catch (Exception ex)
             {
                 switch (ex)
                 {
@@ -56,7 +56,7 @@ namespace Task02
                 }
 
                 throw;
-            }
+            }*/
         }
     }
 }
