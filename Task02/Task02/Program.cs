@@ -57,42 +57,28 @@ namespace Task02
             Utils.TimeIt(RunParallelFloyd);
             // Utils.PrintMatrix(dist);
         }
-
-        public static void RunFloyd()
-        {
-            int n = dist.GetLength(0);
-            for (int k = 0; k < n; k++)
-            {
-                for (int i = 0; i < n; ++i)
-                {
-                    for (int j = 0; j < n; ++j)
-                    {
-                        if (dist[i, k] != Int32.MaxValue && dist[k, j] != Int32.MaxValue)
-                            dist[i, j] = Math.Min(dist[i, j], dist[i, k] + dist[k, j]);
-                    }
-                }
-            }
-        }
+        
         public static void RunParallelFloyd()
         {
             int n = dist.GetLength(0);
             int totalSize = n * n;
             
-            int numThreads = Environment.ProcessorCount;
+            int numThreads = 20;
             if (numThreads > totalSize)
                 numThreads = 1;
             int chunkSize = totalSize / numThreads;
-            Thread[] threads = new Thread[numThreads];
 
             for (int pivot = 0; pivot < n; pivot++)
             {
+                ManualResetEvent allDone = new ManualResetEvent(initialState: false);
+                int completed = 0;
                 for (int num = 0; num < numThreads; ++num)
                 {
                     int currentChunkStart = num * chunkSize;
                     int currentChunkEnd = currentChunkStart + chunkSize;
                     if (totalSize - currentChunkStart < 2 * chunkSize) // In case totalSize % chunkSize != 0
                         currentChunkEnd = totalSize;
-                    threads[num] = new Thread(() =>
+                    ThreadPool.QueueUserWorkItem(_ =>
                     {
                         for (int pos = currentChunkStart; pos < currentChunkEnd; pos++)
                         {
@@ -101,13 +87,14 @@ namespace Task02
                             if (dist[i, pivot] != Int32.MaxValue && dist[pivot, j] != Int32.MaxValue)
                                 dist[i, j] = Math.Min(dist[i, j], dist[i, pivot] + dist[pivot, j]);
                         }
+                        if (Interlocked.Increment(ref completed) == numThreads)
+                        {
+                            allDone.Set();
+                        }
                     });
-                    threads[num].Start();
                 }
-                foreach (Thread thread in threads)
-                {
-                    thread.Join();
-                }
+
+                allDone.WaitOne();
             }
         }
     }
