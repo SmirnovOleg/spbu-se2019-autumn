@@ -6,6 +6,9 @@
     <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="Task02" t="IncludeRecursive">
         <e p=".gitignore" t="Include" />
+        <e p="Algorithms.cs" t="Include" />
+        <e p="Config.cs" t="Include" />
+        <e p="Edge.cs" t="Include" />
         <e p="Program.cs" t="Include" />
         <e p="Task02.csproj" t="IncludeRecursive" />
         <e p="Utils.cs" t="Include" />

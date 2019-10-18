@@ -13,7 +13,35 @@ namespace Task02
             Console.WriteLine($"Total time: {(end - start)} ticks");
         }
 
-        public static void FillMatrix(int[,] matrix, int value)
+        public static bool MatrixEquals<T>(T[,] main, T[,] other) where T: IComparable
+        {
+            bool isEqual = true;
+            for (int i = 0; i < main.GetLength(0); i++)
+            {
+                for (int j = 0; j < main.GetLength(1); j++)
+                {
+                    if (!Equals(main[i, j], other[i, j]))
+                    {
+                        isEqual = false;
+                        break;
+                    }
+                }
+                if (!isEqual)
+                {
+                    break;
+                }
+            }
+
+            return isEqual;
+        }
+        
+        public static void Fill<T>(T[] arr, T value) {
+            for (int i = 0; i < arr.Length; ++i) {
+                arr[i] = value;
+            }
+        }
+
+        public static void FillMatrix<T>(T[,] matrix, T value)
         {
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
@@ -24,7 +52,7 @@ namespace Task02
             }
         }
         
-        public static void PrintMatrix(int[,] matrix)
+        public static void PrintMatrix<T>(T[,] matrix)
         {
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
@@ -44,10 +72,11 @@ namespace Task02
             using StreamWriter writer = File.CreateText(finalPath);
             
             var random = new Random();
-            int n = random.Next(1000, 1100);
-            int m = random.Next(1, n * (n - 1) / 2);
+            int n = random.Next(Config.MinNumVertices, Config.MaxNumVertices);
+            int m = random.Next(Config.MinNumEdges, n * (n - 1) / 2);
             int[,] graph = new int[n, n];
             int[] degree = new int[n];
+            
             writer.WriteLine($"{n} {m}");
             for (int i = 0; i < m; i++)
             {
@@ -60,7 +89,7 @@ namespace Task02
                 degree[v]++;
                 degree[u]++;
                 graph[u, v] = graph[v, u] = 1;
-                int cost = random.Next(10, 100);
+                int cost = random.Next(Config.MinEdgeCost, Config.MaxEdgeCost);
                 writer.WriteLine($"{Math.Min(u, v) + 1} {Math.Max(u, v) + 1} {cost}");
             }
         }
