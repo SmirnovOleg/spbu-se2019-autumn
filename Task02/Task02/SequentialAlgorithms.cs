@@ -5,7 +5,7 @@ namespace Task02
 {
     public class SequentialAlgorithms
     {
-        public static int RunPrim(List<WeightedEdge> edges, int numVertices)
+        public static int RunSequentialPrim(List<WeightedEdge> edges, int numVertices)
         {
             // Prepare arrays for algorithm            
             int[] minEdgeToMST = new int[numVertices];
@@ -63,7 +63,7 @@ namespace Task02
             return totalCost;
         }
         
-        public static int[,] RunFloyd(List<WeightedEdge> edges, int numVertices)
+        public static int[,] RunSequentialFloyd(List<WeightedEdge> edges, int numVertices)
         {
             int[,] dist = new int[numVertices, numVertices];
             Utils.FillMatrix(dist, Int32.MaxValue);
@@ -88,6 +88,39 @@ namespace Task02
             }
 
             return dist;
+        }
+
+        public static void RunSequentialQuickSort<T>(T[] items) where T : IComparable<T>
+        {
+            SequentialQuickSort(items, 0, items.Length);
+        }
+
+        internal static void SequentialQuickSort<T>(T[] items, int left, int right) where T : IComparable<T>
+        {
+            if (left == right) return;
+            int pivot = Partition(items, left, right);
+            SequentialQuickSort(items, left, pivot);
+            SequentialQuickSort(items, pivot + 1, right);
+        }
+
+        private static readonly Random RandomIndex = new Random();
+        internal static int Partition<T>(T[] items, int left, int right) where T : IComparable<T>
+        {
+            int pivotPos = RandomIndex.Next(left, right);
+            T pivotValue = items[pivotPos];
+            Utils.Swap(ref items[right - 1], ref items[pivotPos]);
+            
+            int current = left;
+            for (int i = left; i < right - 1; ++i)
+            {
+                if (items[i].CompareTo(pivotValue) < 0)
+                {
+                    Utils.Swap(ref items[i], ref items[current++]);
+                }
+            }
+            Utils.Swap(ref items[right - 1], ref items[current]);
+            
+            return current;
         }
     }
 }

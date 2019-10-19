@@ -8,7 +8,7 @@ namespace Task02
     {
         static void Main(string[] args)
         {
-            try
+            //try
             {
                 Utils.GenerateRandomGraph(Config.InputFileName);
 
@@ -28,6 +28,7 @@ namespace Task02
                     int v = int.Parse(input[1]) - 1;
                     int cost = int.Parse(input[2]);
                     edges.Add(new WeightedEdge(u, v, cost));
+                    edges.Add(new WeightedEdge(v, u, cost));
                 }
                 
                 /*int[,] dist1 = ParallelAlgorithms.RunParallelFloyd(edges, numVertices);
@@ -40,9 +41,12 @@ namespace Task02
                 /*int cost1 = ParallelAlgorithms.RunParallelPrim(edges, numVertices);
                 int cost2 = SequentialAlgorithms.RunPrim(edges, numVertices);
                 Console.WriteLine($"Equals {cost1} {cost2}");*/
-                
+
+                int cost1 = ParallelAlgorithms.RunParallelKruskal(edges, numVertices);
+                int cost2 = SequentialAlgorithms.RunSequentialPrim(edges, numVertices);
+                Console.WriteLine($"Kruskal: {cost1} | Prim: {cost2}");
             }
-            catch (Exception ex)
+            /*catch (Exception ex)
             {
                 switch (ex)
                 {
@@ -58,7 +62,7 @@ namespace Task02
                 }
 
                 throw;
-            }
+            }*/
         }
     }
 }

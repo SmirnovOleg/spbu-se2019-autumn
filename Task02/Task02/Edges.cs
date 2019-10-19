@@ -1,3 +1,5 @@
+using System;
+
 namespace Task02
 {
     public class Edge
@@ -11,12 +13,9 @@ namespace Task02
             SecondVertex = secondVertex;
         }
         
-        public override int GetHashCode()             
-        {  
-            int hash = 113;
-            hash += (hash * 997) + FirstVertex;
-            hash += (hash * 997) + SecondVertex;
-            return hash;
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(FirstVertex, SecondVertex);
         }
         
         public override bool Equals(object obj) 
@@ -30,13 +29,20 @@ namespace Task02
         }
     }
     
-    public class WeightedEdge: Edge
+    public class WeightedEdge: Edge, IComparable<WeightedEdge>
     {
         public readonly int Cost;
 
         public WeightedEdge(int firstVertex, int secondVertex, int cost) : base(firstVertex, secondVertex)
         {
             Cost = cost;
+        }
+
+        public int CompareTo(WeightedEdge other)
+        {
+            if (ReferenceEquals(this, other)) return 0;
+            if (ReferenceEquals(null, other)) return 1;
+            return Cost.CompareTo(other.Cost);
         }
     }
 }

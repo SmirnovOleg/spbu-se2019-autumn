@@ -7,6 +7,7 @@
       <e p="Task02" t="IncludeRecursive">
         <e p=".gitignore" t="Include" />
         <e p="Config.cs" t="Include" />
+        <e p="DSU.cs" t="Include" />
         <e p="Edges.cs" t="Include" />
         <e p="ParallelAlgorithms.cs" t="Include" />
         <e p="Program.cs" t="Include" />

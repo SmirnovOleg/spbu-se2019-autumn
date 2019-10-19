@@ -34,6 +34,13 @@ namespace Task02
 
             return isEqual;
         }
+
+        public static void Swap<T>(ref T first, ref T second)
+        {
+            T temp = first;
+            first = second;
+            second = temp;
+        }
         
         public static void Fill<T>(T[] arr, T value) {
             for (int i = 0; i < arr.Length; ++i) {

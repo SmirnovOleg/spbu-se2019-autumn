@@ -1,11 +1,55 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Task02
 {
     public static class ParallelAlgorithms
     {
+        public static int RunParallelKruskal(List<WeightedEdge> edges, int numVertices)
+        {
+            int totalCost = 0;
+            var edgesArray = edges.ToArray();
+            RunParallelQuickSort(edgesArray);
+            var dsu = new DisjointSetUnion<int>(Enumerable.Range(0, numVertices).ToList());
+            foreach (var weightedEdge in edgesArray)
+            {
+                if (!Equals(dsu.GetParent(weightedEdge.FirstVertex), dsu.GetParent(weightedEdge.SecondVertex)))
+                {
+                    totalCost += weightedEdge.Cost;
+                    dsu.Unite(weightedEdge.FirstVertex, weightedEdge.SecondVertex);
+                }
+            }
+            return totalCost;
+        }
+
+        public static void RunParallelQuickSort<T>(T[] items) where T : IComparable<T>
+        {
+            ParallelQuickSort(items, 0, items.Length);
+        }
+
+        private static void ParallelQuickSort<T>(T[] items, int left, int right) where T: IComparable<T>
+        {
+            if (right - left <= 1)
+            {
+                return;
+            }
+            int pivot = SequentialAlgorithms.Partition(items, left, right);
+            if (right - left > Config.SequentialThreshold)
+            {
+                Task firstTask = Task.Run(() => SequentialAlgorithms.SequentialQuickSort(items, left, pivot));
+                Task secondTask = Task.Run(() => SequentialAlgorithms.SequentialQuickSort(items, pivot + 1, right));
+                Task.WaitAll(firstTask, secondTask);
+            }
+            else
+            {
+                SequentialAlgorithms.SequentialQuickSort(items, left, pivot);
+                SequentialAlgorithms.SequentialQuickSort(items, pivot + 1, right);
+            }
+        }
+        
         public static int RunParallelPrim(List<WeightedEdge> edges, int numVertices)
         {
             // Prepare arrays for algorithm            
