@@ -8,19 +8,18 @@ namespace Task02
     {
         static void Main(string[] args)
         {
-            //try
+            try
             {
                 Utils.GenerateRandomGraph(Config.InputFileName);
 
                 string workingDirectory = Environment.CurrentDirectory;
                 string projectDirectory = Directory.GetParent(workingDirectory)?.Parent?.Parent?.FullName;
                 using StreamReader reader = new StreamReader(Path.Join(projectDirectory, Config.InputFileName));
+                
                 var input = reader.ReadLine().Split(' ');
                 List<WeightedEdge> edges = new List<WeightedEdge>();
-
                 int numVertices = int.Parse(input[0]);
                 int numEdges = int.Parse(input[1]);
-
                 for (int i = 0; i < numEdges; i++)
                 {
                     input = reader.ReadLine().Split(' ');
@@ -30,23 +29,20 @@ namespace Task02
                     edges.Add(new WeightedEdge(u, v, cost));
                     edges.Add(new WeightedEdge(v, u, cost));
                 }
-                
-                /*int[,] dist1 = ParallelAlgorithms.RunParallelFloyd(edges, numVertices);
-                int[,] dist2 = SequentialAlgorithms.RunFloyd(edges, numVertices);
-                Utils.PrintMatrix(dist1);
-                Console.WriteLine();
-                Utils.PrintMatrix(dist2);
-                Console.WriteLine($"Equals: {Utils.MatrixEquals(dist1, dist2)}");*/
-                
-                /*int cost1 = ParallelAlgorithms.RunParallelPrim(edges, numVertices);
-                int cost2 = SequentialAlgorithms.RunPrim(edges, numVertices);
-                Console.WriteLine($"Equals {cost1} {cost2}");*/
 
-                int cost1 = ParallelAlgorithms.RunParallelKruskal(edges, numVertices);
-                int cost2 = SequentialAlgorithms.RunSequentialPrim(edges, numVertices);
-                Console.WriteLine($"Kruskal: {cost1} | Prim: {cost2}");
+                using StreamWriter writer1 = File.CreateText(Path.Join(projectDirectory, Config.OutputFloydFileName));
+                int[,] dist = ParallelAlgorithms.RunParallelFloyd(edges, numVertices);
+                Utils.PrintMatrix(dist, writer1);
+                
+                using StreamWriter writer2 = File.CreateText(Path.Join(projectDirectory, Config.OutputPrimFileName));
+                int cost1 = ParallelAlgorithms.RunParallelPrim(edges, numVertices);
+                writer2.WriteLine($"{cost1}");
+
+                using StreamWriter writer3 = File.CreateText(Path.Join(projectDirectory, Config.OutputKruskalFileName));
+                int cost2 = ParallelAlgorithms.RunParallelKruskal(edges, numVertices);
+                writer3.WriteLine($"{cost2}");
             }
-            /*catch (Exception ex)
+            catch (Exception ex)
             {
                 switch (ex)
                 {
@@ -60,9 +56,7 @@ namespace Task02
                         Console.WriteLine("Wrong format of data");
                         break;
                 }
-
-                throw;
-            }*/
+            }
         }
     }
 }

@@ -8,9 +8,9 @@ namespace Task02
         public static int RunSequentialPrim(List<WeightedEdge> edges, int numVertices)
         {
             // Prepare arrays for algorithm            
-            int[] minEdgeToMST = new int[numVertices];
-            Utils.Fill(minEdgeToMST, Int32.MaxValue);
-            minEdgeToMST[0] = 0;
+            int[] minEdgeToMst = new int[numVertices];
+            Utils.Fill(minEdgeToMst, Int32.MaxValue);
+            minEdgeToMst[0] = 0;
             
             bool[] used = new bool[numVertices];
             Utils.Fill(used, false);
@@ -30,21 +30,21 @@ namespace Task02
                 int targetVertex = -1;
                 for (int currentVertex = 0; currentVertex < numVertices; currentVertex++)
                 {
-                    if ((targetVertex == -1 || minEdgeToMST[currentVertex] < minEdgeToMST[targetVertex]) 
+                    if ((targetVertex == -1 || minEdgeToMst[currentVertex] < minEdgeToMst[targetVertex]) 
                         && !used[currentVertex])
                     {
                         targetVertex = currentVertex;
                     }
                 }
-                if (minEdgeToMST[targetVertex] == Int32.MaxValue)
+                if (minEdgeToMst[targetVertex] == Int32.MaxValue)
                 {
                     // Graph is disconnected. Add new MST to forest
-                    minEdgeToMST[targetVertex] = 0;
+                    minEdgeToMst[targetVertex] = 0;
                 }
                 
                 // Add selected vertex to MST
                 used[targetVertex] = true;
-                totalCost += minEdgeToMST[targetVertex];
+                totalCost += minEdgeToMst[targetVertex];
                 
                 // Update distances from all other vertices to current MST
                 for (int otherVertex = 0; otherVertex < numVertices; otherVertex++)
@@ -53,9 +53,9 @@ namespace Task02
                     if (!edgesMap.ContainsKey(edge)) 
                         continue;
                     var currentCost = edgesMap[edge];
-                    if (currentCost < minEdgeToMST[otherVertex])
+                    if (currentCost < minEdgeToMst[otherVertex])
                     {
-                        minEdgeToMST[otherVertex] = currentCost;
+                        minEdgeToMst[otherVertex] = currentCost;
                     }
                 }
             }

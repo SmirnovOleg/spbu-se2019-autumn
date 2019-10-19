@@ -4,25 +4,25 @@ namespace Task02
 {
     public class DisjointSetUnion<T>
     {
-        private readonly Dictionary<T, T> parent = new Dictionary<T, T>();
-        private readonly Dictionary<T, int> rank = new Dictionary<T, int>();
+        private readonly Dictionary<T, T> _parent = new Dictionary<T, T>();
+        private readonly Dictionary<T, int> _rank = new Dictionary<T, int>();
         
-        public DisjointSetUnion(List<T> items)
+        public DisjointSetUnion(T[] items)
         {
             foreach (var item in items)
             {
-                parent[item] = item;
-                rank[item] = 0;
+                _parent[item] = item;
+                _rank[item] = 0;
             }
         }
 
         public T GetParent(T vertex)
         {
-            if (Equals(vertex, parent[vertex]))
+            if (Equals(vertex, _parent[vertex]))
             {
                 return vertex;
             }
-            return parent[vertex] = GetParent(parent[vertex]);
+            return _parent[vertex] = GetParent(_parent[vertex]);
         }
 
         public void Unite(T first, T second)
@@ -31,14 +31,14 @@ namespace Task02
             second = GetParent(second);
             if (!Equals(first, second))
             {
-                if (rank[first] < rank[second])
+                if (_rank[first] < _rank[second])
                 {
                     Utils.Swap(ref first, ref second);
                 }
-                parent[second] = first;
-                if (rank[first] == rank[second])
+                _parent[second] = first;
+                if (_rank[first] == _rank[second])
                 {
-                    ++rank[first];
+                    ++_rank[first];
                 }
             }
         }

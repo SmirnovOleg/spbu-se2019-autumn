@@ -13,7 +13,7 @@ namespace Task02
             int totalCost = 0;
             var edgesArray = edges.ToArray();
             RunParallelQuickSort(edgesArray);
-            var dsu = new DisjointSetUnion<int>(Enumerable.Range(0, numVertices).ToList());
+            var dsu = new DisjointSetUnion<int>(Enumerable.Range(0, numVertices).ToArray());
             foreach (var weightedEdge in edgesArray)
             {
                 if (!Equals(dsu.GetParent(weightedEdge.FirstVertex), dsu.GetParent(weightedEdge.SecondVertex)))
@@ -53,9 +53,9 @@ namespace Task02
         public static int RunParallelPrim(List<WeightedEdge> edges, int numVertices)
         {
             // Prepare arrays for algorithm            
-            int[] minEdgeToMST = new int[numVertices];
-            Utils.Fill(minEdgeToMST, Int32.MaxValue);
-            minEdgeToMST[0] = 0;
+            int[] minEdgeToMst = new int[numVertices];
+            Utils.Fill(minEdgeToMst, Int32.MaxValue);
+            minEdgeToMst[0] = 0;
             
             bool[] used = new bool[numVertices];
             Utils.Fill(used, false);
@@ -92,13 +92,13 @@ namespace Task02
                     if (numVertices - currentChunkStart < 2 * chunkSize) // In case numVertices % chunkSize != 0
                         currentChunkEnd = numVertices;
                     targetByChunks[num] = -1; // In case of disconnected graph it will help
-                    ThreadPool.QueueUserWorkItem((object state) =>
+                    ThreadPool.QueueUserWorkItem(state =>
                     {
                         var id = (int) state;
                         for (int currentVertex = currentChunkStart; currentVertex < currentChunkEnd; currentVertex++)
                         {
                             if ((targetByChunks[id] == -1
-                                    || minEdgeToMST[currentVertex] < minEdgeToMST[targetByChunks[id]]) 
+                                    || minEdgeToMst[currentVertex] < minEdgeToMst[targetByChunks[id]]) 
                                 && !used[currentVertex])
                             {
                                 targetByChunks[id] = currentVertex;
@@ -115,21 +115,21 @@ namespace Task02
                 foreach (var chunkResult in targetByChunks)
                 {
                     if (chunkResult != -1
-                        && (targetVertex == -1 || minEdgeToMST[chunkResult] < minEdgeToMST[targetVertex])
+                        && (targetVertex == -1 || minEdgeToMst[chunkResult] < minEdgeToMst[targetVertex])
                         && !used[chunkResult])
                     {
                         targetVertex = chunkResult;
                     }
                 }
-                if (minEdgeToMST[targetVertex] == Int32.MaxValue)
+                if (minEdgeToMst[targetVertex] == Int32.MaxValue)
                 {
                     // Graph is disconnected. Add new MST to forest
-                    minEdgeToMST[targetVertex] = 0;
+                    minEdgeToMst[targetVertex] = 0;
                 }
                 
                 // Add selected vertex to MST
                 used[targetVertex] = true;
-                totalCost += minEdgeToMST[targetVertex];
+                totalCost += minEdgeToMst[targetVertex];
                 
                 // Update distances from all other vertices to current MST using ThreadPool
                 completed = 0;
@@ -147,9 +147,9 @@ namespace Task02
                             if (!edgesMap.ContainsKey(edge)) 
                                 continue;
                             var currentCost = edgesMap[edge];
-                            if (currentCost < minEdgeToMST[otherVertex])
+                            if (currentCost < minEdgeToMst[otherVertex])
                             {
-                                minEdgeToMST[otherVertex] = currentCost;
+                                minEdgeToMst[otherVertex] = currentCost;
                             }
                         }
                         if (Interlocked.Increment(ref completed) == numThreads)

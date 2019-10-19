@@ -15,7 +15,9 @@
         <e p="Task02.csproj" t="IncludeRecursive" />
         <e p="Utils.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
+        <e p="floyd.txt" t="Include" />
         <e p="input.txt" t="Include" />
+        <e p="kruskal.txt" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Release" t="Include">
             <e p="netcoreapp3.0" t="Include">
@@ -23,6 +25,7 @@
             </e>
           </e>
         </e>
+        <e p="prim.txt" t="Include" />
       </e>
       <e p="Task02.sln" t="IncludeFlat" />
       <e p="packages" t="ExcludeRecursive" />

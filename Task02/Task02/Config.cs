@@ -9,14 +9,16 @@ namespace Task02
         public const int SequentialThreshold = 500;
         
         public const string InputFileName = "input.txt";
-        public const string OutputFileName = "output.txt";
+        public const string OutputFloydFileName = "floyd.txt";
+        public const string OutputPrimFileName = "prim.txt";
+        public const string OutputKruskalFileName = "kruskal.txt";
+
+        public const int MinNumVertices = 2000;
+        public const int MaxNumVertices = 3000;
         
-        public const int MinNumVertices = 5000;
-        public const int MaxNumVertices = 6000;
-        
-        public const int MinNumEdges = 1000000;
+        public const int MinNumEdges = 100000;
         
         public const int MinEdgeCost = 1;
-        public const int MaxEdgeCost = 100;
+        public const int MaxEdgeCost = 1000;
     }
 }
