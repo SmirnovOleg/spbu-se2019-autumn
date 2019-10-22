@@ -1,0 +1,11 @@
+/home/oleg/prog/spbu/3rd/practice/spbu-se2019-autumn/Task03/bin/Debug/netcoreapp3.0/Task03
+/home/oleg/prog/spbu/3rd/practice/spbu-se2019-autumn/Task03/bin/Debug/netcoreapp3.0/Task03.deps.json
+/home/oleg/prog/spbu/3rd/practice/spbu-se2019-autumn/Task03/bin/Debug/netcoreapp3.0/Task03.runtimeconfig.json
+/home/oleg/prog/spbu/3rd/practice/spbu-se2019-autumn/Task03/bin/Debug/netcoreapp3.0/Task03.runtimeconfig.dev.json
+/home/oleg/prog/spbu/3rd/practice/spbu-se2019-autumn/Task03/bin/Debug/netcoreapp3.0/Task03.dll
+/home/oleg/prog/spbu/3rd/practice/spbu-se2019-autumn/Task03/bin/Debug/netcoreapp3.0/Task03.pdb
+/home/oleg/prog/spbu/3rd/practice/spbu-se2019-autumn/Task03/obj/Debug/netcoreapp3.0/Task03.csprojAssemblyReference.cache
+/home/oleg/prog/spbu/3rd/practice/spbu-se2019-autumn/Task03/obj/Debug/netcoreapp3.0/Task03.AssemblyInfoInputs.cache
+/home/oleg/prog/spbu/3rd/practice/spbu-se2019-autumn/Task03/obj/Debug/netcoreapp3.0/Task03.AssemblyInfo.cs
+/home/oleg/prog/spbu/3rd/practice/spbu-se2019-autumn/Task03/obj/Debug/netcoreapp3.0/Task03.dll
+/home/oleg/prog/spbu/3rd/practice/spbu-se2019-autumn/Task03/obj/Debug/netcoreapp3.0/Task03.pdb
