@@ -70,7 +70,7 @@ namespace Task02
             int totalCost = 0;
             
             // Prepare threads and chunks info
-            int numThreads = Config.OptimalThreadPoolSize;
+            int numThreads = Config.OptimalNumChunks;
             if (numThreads > numVertices)
             {
                 numThreads = 1;

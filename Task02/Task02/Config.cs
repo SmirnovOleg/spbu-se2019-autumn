@@ -5,7 +5,7 @@ namespace Task02
     public struct Config
     {
         public static readonly int NumThreads = Environment.ProcessorCount;
-        public const int OptimalThreadPoolSize = 10;
+        public const int OptimalNumChunks = 10;
         public const int SequentialThreshold = 500;
         
         public const string InputFileName = "data/input.txt";
