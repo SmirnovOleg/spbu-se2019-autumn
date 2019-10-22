@@ -8,15 +8,15 @@ namespace Task02
         public const int OptimalThreadPoolSize = 10;
         public const int SequentialThreshold = 500;
         
-        public const string InputFileName = "input.txt";
-        public const string OutputFloydFileName = "floyd.txt";
-        public const string OutputPrimFileName = "prim.txt";
-        public const string OutputKruskalFileName = "kruskal.txt";
+        public const string InputFileName = "data/input.txt";
+        public const string OutputFloydFileName = "data/floyd.txt";
+        public const string OutputPrimFileName = "data/prim.txt";
+        public const string OutputKruskalFileName = "data/kruskal.txt";
 
-        public const int MinNumVertices = 2000;
-        public const int MaxNumVertices = 3000;
+        public const int MinNumVertices = 900;
+        public const int MaxNumVertices = 1000;
         
-        public const int MinNumEdges = 100000;
+        public const int MinNumEdges = 10000;
         
         public const int MinEdgeCost = 1;
         public const int MaxEdgeCost = 1000;
