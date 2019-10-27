@@ -39,8 +39,8 @@ namespace Task02
             int pivot = SequentialAlgorithms.Partition(items, left, right);
             if (right - left > Config.SequentialThreshold)
             {
-                Task firstTask = Task.Run(() => SequentialAlgorithms.SequentialQuickSort(items, left, pivot));
-                Task secondTask = Task.Run(() => SequentialAlgorithms.SequentialQuickSort(items, pivot + 1, right));
+                Task firstTask = Task.Run(() => ParallelQuickSort(items, left, pivot));
+                Task secondTask = Task.Run(() => ParallelQuickSort(items, pivot + 1, right));
                 Task.WaitAll(firstTask, secondTask);
             }
             else
