@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task02
 {
-    public static class ParallelAlgorithms
+    public class ParallelAlgorithms
     {
         public static int RunParallelKruskal(List<WeightedEdge> edges, int numVertices)
         {

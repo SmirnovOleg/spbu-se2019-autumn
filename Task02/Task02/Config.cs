@@ -13,10 +13,10 @@ namespace Task02
         public const string OutputPrimFileName = "data/prim.txt";
         public const string OutputKruskalFileName = "data/kruskal.txt";
 
-        public const int MinNumVertices = 900;
-        public const int MaxNumVertices = 1000;
+        public const int MinNumVertices = 100;
+        public const int MaxNumVertices = 500;
         
-        public const int MinNumEdges = 10000;
+        public const int MinNumEdges = 1000;
         
         public const int MinEdgeCost = 1;
         public const int MaxEdgeCost = 1000;

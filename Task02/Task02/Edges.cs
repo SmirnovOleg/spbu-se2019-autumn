@@ -15,17 +15,26 @@ namespace Task02
         
         public override int GetHashCode()
         {
-            return HashCode.Combine(FirstVertex, SecondVertex);
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 31 + FirstVertex.GetHashCode();
+                hash = hash * 31 + SecondVertex.GetHashCode();
+                return hash;
+            }
         }
         
         public override bool Equals(object obj) 
         { 
-            return Equals(obj as Edge); 
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((Edge) obj); 
         }
         
-        private bool Equals(Edge obj)
+        private bool Equals(Edge other)
         { 
-            return obj != null && obj.GetHashCode() == GetHashCode(); 
+            return FirstVertex == other.FirstVertex && SecondVertex == other.SecondVertex; 
         }
     }
     
