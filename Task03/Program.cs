@@ -25,8 +25,11 @@ namespace Task03
             {
                 producers[i].EndWriting();
             }
+            
             for (int i = 0; i < Config.NumConsumers; i++)
             {
+                if (SharedData<int>.Buffer.Count == 0)
+                    SharedData<int>.NonEmptySem.Release();
                 consumers[i].EndReading();
             }
         }

@@ -20,27 +20,28 @@ namespace Task03
         {
             while (!_cancellationRequested)
             {
-                SharedData<T>.WaitingForWorkMtx.WaitOne();
-                SharedData<T>.WritingSem.Wait();
-
-                Console.WriteLine($"Producer #{_id} started writing to buffer");
-                SharedData<T>.Buffer.Add(new T());
+                // Prepare data
                 Thread.Sleep(SharedData<T>.RandomGenerator.Next(1, Config.MaxSecTimeout) * 1000);
-                Console.WriteLine($"Producer #{_id} finished writing to buffer");
-
-                SharedData<T>.WritingSem.Release();
-                SharedData<T>.WaitingForWorkMtx.ReleaseMutex();
-                
                 if (_cancellationRequested)
                 {
-                    Console.WriteLine($"Producer #{_id} closed his session");
+                    break;
                 }
+                
+                SharedData<T>.ProducingMtx.WaitOne();
+
+                Console.WriteLine($"Producer #{_id} started; buffer size is {SharedData<T>.Buffer.Count}");
+                SharedData<T>.Buffer.Add(new T());
+                Console.WriteLine($"Producer #{_id} finished writing to buffer");
+
+                SharedData<T>.ProducingMtx.ReleaseMutex();
+                SharedData<T>.NonEmptySem.Release();
             }
         }
 
         public void EndWriting()
         {
             _cancellationRequested = true;
+            Console.WriteLine($"Producer #{_id} closed his session");
         }
     }
 }

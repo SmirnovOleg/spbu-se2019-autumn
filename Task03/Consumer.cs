@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 
 namespace Task03
@@ -20,54 +21,30 @@ namespace Task03
         {
             while (!_cancellationRequested)
             {
-                // Wait for reading, increment active readers amount
-                // Capture mutex for writing if only previous reader haven't do it yet
-                SharedData<T>.WaitingForWorkMtx.WaitOne();
-                SharedData<T>.ReadingHelperMtx.WaitOne();
-                SharedData<T>.NowReading++;
-                if (SharedData<T>.NowReading == 1)
-                {
-                    SharedData<T>.WritingSem.Wait();
-                }
-
-                SharedData<T>.ReadingHelperMtx.ReleaseMutex();
-                SharedData<T>.WaitingForWorkMtx.ReleaseMutex();
-
-                // Reading
-                int bufferSize = SharedData<T>.Buffer.Count;
-                if (bufferSize == 0)
-                {
-                    Console.WriteLine($"Consumer #{_id} couldn't start reading because buffer is empty");
-                    Thread.Sleep(SharedData<T>.RandomGenerator.Next(1, Config.MaxSecTimeout) * 1000);
-                }
-                else
-                {
-                    int index = SharedData<T>.RandomGenerator.Next(0, bufferSize);
-                    Console.WriteLine($"Consumer #{_id} started reading from buffer[{index}]");
-                    T unused = SharedData<T>.Buffer[index];
-                    Thread.Sleep(SharedData<T>.RandomGenerator.Next(1, Config.MaxSecTimeout) * 1000);
-                    Console.WriteLine($"Consumer #{_id} finished reading from buffer[{index}]");
-                }
-
-                // Decrement active readers amount, release mutex for writing
-                SharedData<T>.ReadingHelperMtx.WaitOne();
-                SharedData<T>.NowReading--;
-                if (SharedData<T>.NowReading == 0)
-                {
-                    SharedData<T>.WritingSem.Release();
-                }
-                SharedData<T>.ReadingHelperMtx.ReleaseMutex();
-
+                SharedData<T>.NonEmptySem.Wait();
+                
                 if (_cancellationRequested)
                 {
-                    Console.WriteLine($"Consumer #{_id} closed his session");
+                    break;
                 }
+                
+                SharedData<T>.ConsumingMtx.WaitOne();
+                
+                Console.WriteLine($"Consumer #{_id} started; buffer size is {SharedData<T>.Buffer.Count}");
+                T unused = SharedData<T>.Buffer.First();
+                SharedData<T>.Buffer.RemoveAt(0);
+                Console.WriteLine($"Consumer #{_id} finished extracting item from buffer");
+                
+                SharedData<T>.ConsumingMtx.ReleaseMutex();
+                
+                Thread.Sleep(SharedData<T>.RandomGenerator.Next(1, Config.MaxSecTimeout) * 1000);
             }
         }
 
         public void EndReading()
         {
             _cancellationRequested = true;
+            Console.WriteLine($"Consumer #{_id} closed his session");
         }
     }
 }
