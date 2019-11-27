@@ -5,7 +5,7 @@ namespace Task05
 {
     public class BinaryTree<T> where T : struct, IComparable<T>
     {
-        private Node<T> _root;
+        private Node<T>? _root;
 
         public BinaryTree()
         {
@@ -56,9 +56,9 @@ namespace Task05
         public virtual T? Find(T targetValue)
         {
             Node<T> current = _root;
-            while (current != null && current.Value.CompareTo(targetValue) != 0)
+            while (current?.Value.CompareTo(targetValue) != 0)
             {
-                current = current.Value.CompareTo(targetValue) < 0 ? current.Right : current.Left;
+                current = current?.Value.CompareTo(targetValue) < 0 ? current.Right : current?.Left;
             }
 
             return current?.Value;
@@ -150,7 +150,7 @@ namespace Task05
             
         }
 
-        public void Print()
+        public virtual void Print()
         {
             Traverse(_root);
             Console.WriteLine();

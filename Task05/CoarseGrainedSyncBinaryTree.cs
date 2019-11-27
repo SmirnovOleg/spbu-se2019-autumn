@@ -8,9 +8,7 @@ namespace Task05
     {
         private readonly Mutex _mutex = new Mutex();
 
-        public CoarseGrainedSyncBinaryTree(IEnumerable<T> collection) : base(collection)
-        {
-        }
+        public CoarseGrainedSyncBinaryTree(IEnumerable<T> collection) : base(collection) {}
 
         public override void Insert(T value)
         {
