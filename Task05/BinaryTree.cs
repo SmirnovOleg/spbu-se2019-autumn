@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO.Enumeration;
 using System.Runtime.CompilerServices;
 
 namespace Task05
@@ -151,20 +152,44 @@ namespace Task05
             
         }
 
-        public virtual void Print()
+        public void Print()
         {
-            Traverse(Root);
+            Traverse(Root, node =>
+            {
+                Console.Write(node.Value + " ");
+            });
             Console.WriteLine();
         }
 
-        private void Traverse(Node<T> current)
+        internal void ForEach(Action<Node<T>> action)
+        {
+            Traverse(Root, action);
+        }
+
+        internal bool All(Predicate<Node<T>> predicate)
+        {
+            return Fold(Root, predicate, true, (x, y) => x && y);
+        }
+
+        private void Traverse(Node<T> current, Action<Node<T>> action)
         {
             if (current != null)
             {
-                Traverse(current.Left);
-                Console.Write(current.Value + " ");
-                Traverse(current.Right);
+                Traverse(current.Left, action);
+                action(current);
+                Traverse(current.Right, action);
             }
+        }
+        
+        private bool Fold(Node<T> current, Predicate<Node<T>> predicate, bool total, Func<bool, bool, bool> func)
+        {
+            if (current != null)
+            {
+                bool temp = Fold(current.Left, predicate, total, func);
+                temp = func(temp, predicate(current));
+                return Fold(current.Right, predicate, temp, func);
+            }
+            return total;
         }
     }
 }

@@ -23,9 +23,9 @@ namespace Tests.CoarseGrained
         [TestCase(new[] {1, 2, 3, 4, 5}, 5)]
         public void Find_ValueInCoarseGrainedTree_ReturnValue(IEnumerable<int> elements, int value)
         {
-            var coarseTree = new CoarseGrainedSyncBinaryTree<int>(elements);
+            var tree = new CoarseGrainedSyncBinaryTree<int>(elements);
             
-            var actual = coarseTree.Find(value);
+            var actual = tree.Find(value);
 
             Assert.AreEqual(value, actual);
         }

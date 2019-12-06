@@ -23,9 +23,9 @@ namespace Tests.FineGrained
         [TestCase(new [] {1, 2, 3, 4, 5}, 5)]
         public void Find_ValueInFineGrainedTree_ReturnValue(IEnumerable<int> elements, int value)
         {
-            var fineTree = new FineGrainedSyncBinaryTree<int>(elements);
+            var tree = new FineGrainedSyncBinaryTree<int>(elements);
             
-            var actual = fineTree.Find(value);
+            var actual = tree.Find(value);
             
             Assert.AreEqual(value, actual);
         }

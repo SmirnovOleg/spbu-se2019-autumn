@@ -208,19 +208,13 @@ namespace Task05
             target.Mtx.ReleaseMutex();
         }
         
-        public override void Print()
-        {
-            Traverse(Root);
-            Console.WriteLine();
-        }
-
-        private void Traverse(SafeNode<T> current)
+        private void Traverse(SafeNode<T> current, Action<SafeNode<T>> action)
         {
             if (current != null)
             {
-                Traverse(current.Left);
-                Console.Write(current.Value + " ");
-                Traverse(current.Right);
+                Traverse(current.Left, action);
+                action(current);
+                Traverse(current.Right, action);
             }
         }
     }
