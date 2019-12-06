@@ -170,7 +170,11 @@ namespace Task05
                 {
                     parentOfTarget.Right = null;
                 }
-                target.Mtx.ReleaseMutex();
+                else
+                {
+                    Root = null;
+                }
+                target?.Mtx.ReleaseMutex();
                 return;
             }
             
