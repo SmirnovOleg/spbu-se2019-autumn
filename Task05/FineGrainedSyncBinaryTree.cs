@@ -6,14 +6,16 @@ namespace Task05
 {
     public class FineGrainedSyncBinaryTree<T> : BinaryTree<T> where T : struct, IComparable<T>
     {
-        private SafeNode<T>? _root;
+        internal new SafeNode<T> Root;
         private readonly Mutex _mtxRoot = new Mutex();
         
         public FineGrainedSyncBinaryTree(IEnumerable<T> collection) : base(collection) {}
-        
+
+        public FineGrainedSyncBinaryTree() {}
+
         public override T? Find(T targetValue)
         {
-            SafeNode<T> current = _root;
+            SafeNode<T> current = Root;
             current?.Mtx.WaitOne();
             if (current?.Value.CompareTo(targetValue) == 0)
             {
@@ -47,12 +49,12 @@ namespace Task05
         
         public override void Insert(T value)
         {
-            SafeNode<T> current = _root;
+            SafeNode<T> current = Root;
             SafeNode<T> newNode = new SafeNode<T>(value);
             _mtxRoot.WaitOne();
-            if (_root == null)
+            if (Root == null)
             {
-                _root = newNode;
+                Root = newNode;
                 _mtxRoot.ReleaseMutex();
                 return;
             }
@@ -95,7 +97,7 @@ namespace Task05
         public override void Remove(T targetValue)
         {
             // Find target node to remove
-            SafeNode<T> current = _root;
+            SafeNode<T> current = Root;
             SafeNode<T> target = null;
             SafeNode<T> parentOfTarget = null;
             current?.Mtx.WaitOne();
@@ -204,7 +206,7 @@ namespace Task05
         
         public override void Print()
         {
-            Traverse(_root);
+            Traverse(Root);
             Console.WriteLine();
         }
 

@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Task05
 {
     public class BinaryTree<T> where T : struct, IComparable<T>
     {
-        private Node<T>? _root;
+        internal Node<T> Root;
 
         public BinaryTree()
         {
-            _root = null;
+            Root = null;
         }
         
         public BinaryTree(IEnumerable<T> collection)
@@ -23,13 +24,13 @@ namespace Task05
         public virtual void Insert(T value)
         {
             Node<T> newNode = new Node<T>(value);
-            if (_root == null)
+            if (Root == null)
             {
-                _root = newNode;
+                Root = newNode;
                 return;
             }
 
-            Node<T> current = _root;
+            Node<T> current = Root;
             while (current.Value.CompareTo(newNode.Value) != 0)
             {
                 if (current.Value.CompareTo(newNode.Value) < 0)
@@ -55,8 +56,8 @@ namespace Task05
 
         public virtual T? Find(T targetValue)
         {
-            Node<T> current = _root;
-            while (current?.Value.CompareTo(targetValue) != 0)
+            Node<T> current = Root;
+            while (current != null && current?.Value.CompareTo(targetValue) != 0)
             {
                 current = current?.Value.CompareTo(targetValue) < 0 ? current.Right : current?.Left;
             }
@@ -68,7 +69,7 @@ namespace Task05
         {
             // Find necessary node with targetValue and its parent
             Node<T> parent = null;
-            Node<T> current = _root;
+            Node<T> current = Root;
             while (current != null && current.Value.CompareTo(targetValue) != 0)
             {
                 parent = current;
@@ -136,7 +137,7 @@ namespace Task05
                 // In case if target node has no children, update its parent
                 if (parent == null)
                 {
-                    _root = null;
+                    Root = null;
                 }
                 else if (parent.Left != null && parent.Left.Equals(current))
                 {
@@ -152,7 +153,7 @@ namespace Task05
 
         public virtual void Print()
         {
-            Traverse(_root);
+            Traverse(Root);
             Console.WriteLine();
         }
 

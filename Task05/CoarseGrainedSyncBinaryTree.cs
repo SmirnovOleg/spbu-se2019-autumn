@@ -10,6 +10,8 @@ namespace Task05
 
         public CoarseGrainedSyncBinaryTree(IEnumerable<T> collection) : base(collection) {}
 
+        public CoarseGrainedSyncBinaryTree() {}
+
         public override void Insert(T value)
         {
             _mutex.WaitOne();

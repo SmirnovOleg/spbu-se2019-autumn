@@ -5,7 +5,7 @@ namespace Task05
 {
     internal class SafeNode<T> : Node<T> where T : IComparable<T>
     {
-        public Mutex Mtx;
+        public readonly Mutex Mtx;
         public new SafeNode<T> Left;
         public new SafeNode<T> Right;
 
