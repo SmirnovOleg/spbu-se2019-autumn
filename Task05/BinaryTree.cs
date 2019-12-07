@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO.Enumeration;
-using System.Runtime.CompilerServices;
 
 namespace Task05
 {
@@ -60,7 +58,7 @@ namespace Task05
             Node<T> current = Root;
             while (current != null && current?.Value.CompareTo(targetValue) != 0)
             {
-                current = current?.Value.CompareTo(targetValue) < 0 ? current.Right : current?.Left;
+                current = current.Value.CompareTo(targetValue) < 0 ? current.Right : current.Left;
             }
 
             return current?.Value;

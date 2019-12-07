@@ -175,7 +175,7 @@ namespace Task05
                 {
                     Root = null;
                 }
-                target?.Mtx.ReleaseMutex();
+                target.Mtx.ReleaseMutex();
                 return;
             }
             
