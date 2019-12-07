@@ -152,15 +152,6 @@ namespace Task05
             
         }
 
-        public void Print()
-        {
-            Traverse(Root, node =>
-            {
-                Console.Write(node.Value + " ");
-            });
-            Console.WriteLine();
-        }
-
         internal void ForEach(Action<Node<T>> action)
         {
             Traverse(Root, action);

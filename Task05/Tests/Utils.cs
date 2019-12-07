@@ -17,9 +17,10 @@ namespace Tests
 
         public static bool ValidateStructure<T>(BinaryTree<T> tree) where T : struct, IComparable<T>
         {
-            return tree.All(node => 
-                node.Left?.Value.CompareTo(node.Value) < 0
-                && node.Right?.Value.CompareTo(node.Value) > 0);
+            return tree.All(node =>
+                node.Left == null && node.Right == null
+                || node.Left != null && node.Left?.Value.CompareTo(node.Value) < 0
+                || node.Right != null && node.Right?.Value.CompareTo(node.Value) > 0);
         }
     }
 }

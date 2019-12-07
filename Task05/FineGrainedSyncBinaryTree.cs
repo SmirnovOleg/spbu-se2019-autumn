@@ -58,6 +58,7 @@ namespace Task05
                 _mtxRoot.ReleaseMutex();
                 return;
             }
+            _mtxRoot.ReleaseMutex();
             current?.Mtx.WaitOne();
             
             while (true)
@@ -206,16 +207,6 @@ namespace Task05
             leftNeighbor?.Mtx.ReleaseMutex();
             rightNeighbor?.Mtx.ReleaseMutex();
             target.Mtx.ReleaseMutex();
-        }
-        
-        private void Traverse(SafeNode<T> current, Action<SafeNode<T>> action)
-        {
-            if (current != null)
-            {
-                Traverse(current.Left, action);
-                action(current);
-                Traverse(current.Right, action);
-            }
         }
     }
 }
