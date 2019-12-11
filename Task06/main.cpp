@@ -24,7 +24,7 @@ public:
     void print();
     double run_forward_algo();
     void run_viterbi_algo(int *hidden_states_idxs);
-    void run_baum_welch_algo();
+    void run_baum_welch_algo(int epochs);
 };
 
 
@@ -168,42 +168,52 @@ void hidden_markov_model<T>::run_viterbi_algo(int *hidden_states_idxs) {
     for (int i = 0; i < n_states; ++i) {
         alpha[0][i] = initial_distribution[i] * emissions[i][observations[0]];
     }
-    int backward_step[n_observations][n_states];
-    for (int t = 1; t < n_observations; ++t) {
+    int backtrack[n_observations][n_states];
+    for (int t = 1; t <= n_observations; ++t) {
         for (int i = 0; i < n_states; ++i) {
-            alpha[t][i] = 0.0;
+            if (t != n_observations) {
+                alpha[t][i] = -1;
+                for (int j = 0; j < n_states; ++j) {
+                    double prob = transitions[j][i] * emissions[i][observations[t]];
+                    if (alpha[t][i] < alpha[t - 1][j] * prob) {
+                        alpha[t][i] = alpha[t - 1][j] * prob;
+                    }
+                }
+            }
+            double temp = -1;
             for (int j = 0; j < n_states; ++j) {
-                double prob = transitions[j][i] * emissions[i][observations[t]];
-                if (alpha[t][i] < alpha[t - 1][j] * prob) {
-                    backward_step[t][i] = j;
-                    alpha[t][i] = alpha[t - 1][j] * prob;
+                if (temp < alpha[t - 1][j] * transitions[j][i]) {
+                    temp = alpha[t - 1][j] * transitions[j][i];
+                    backtrack[t - 1][i] = j;
                 }
             }
         }
     }
     /// Calculate the most likely last hidden state
-    double max_likelihood = 0.0;
+    double max_likelihood = -1;
     for (int i = 0; i < n_states; ++i) {
         if (alpha[n_observations - 1][i] > max_likelihood) {
             max_likelihood = alpha[n_observations - 1][i];
             hidden_states_idxs[n_observations - 1] = i;
         }
     }
-    /// Make backward step
+    /// Go backtracking
     for (int i = n_observations - 2; i >= 0; --i) {
         int next_state = hidden_states_idxs[i + 1];
-        hidden_states_idxs[i] = backward_step[i + 1][next_state];
+        hidden_states_idxs[i] = backtrack[i + 1][next_state];
     }
 }
 
 
 template<typename T>
-void hidden_markov_model<T>::run_baum_welch_algo() {
+void hidden_markov_model<T>::run_baum_welch_algo(int epochs) {
     generate_random_parameters();
-    for (int current = 0; current < 10; ++current) {
+    for (int epoch = 0; epoch < epochs; ++epoch) {
         /// Make forward step, calculate alpha and likelihood
         double likelihood = run_forward_algo();
-        cout << "Step: " << current << " | Likelihood: " << likelihood << endl;
+        if (epoch % 5 == 0) {
+            cout << "Epoch: " << epoch << " | Likelihood: " << likelihood << endl;
+        }
         /// Make backward step, calculate beta, gamma and xi
         double gamma[n_observations][n_states];
         double xi[n_states][n_states];
@@ -247,10 +257,11 @@ void hidden_markov_model<T>::run_baum_welch_algo() {
 
 
 int main() {
-    cout << fixed << setprecision(3);
-    int n_states = 5;
-    int n_observations = 3;
-    int observations_dict_size = 2;
+    //cout << fixed << setprecision(5);
+    const int n_states = 100;
+    const int n_observations = 30;
+    const int observations_dict_size = 2;
+    const int epochs = 150;
 
     /// Create observations dictionary
     /// Methods of HMM class use templates, so we'll use ints instead of T
@@ -263,20 +274,31 @@ int main() {
     hidden_markov_model<int> hmm(n_states, n_observations, observations_dict_size);
     hmm.generate_random_parameters();
     hmm.generate_random_observations(dict);
-    hmm.print();
-
-    /// Run Forward step
-    cout << "Likelihood:" << endl << hmm.run_forward_algo() << endl;
-
-    int hidden[n_observations];
-    hmm.run_viterbi_algo(hidden);
-    cout << "Hidden states (Viterbi algorithm):" << endl;
-    for (auto state: hidden) cout << state << " ";
+    //hmm.print();
     cout << endl;
 
-    cout << "Fitting the model with Baum-Welch algorithm:" << endl;
+    /// Run Forward step
+    clock_t start = clock();
+    double likelihood = hmm.run_forward_algo();
+    double total = double(clock() - start) / CLOCKS_PER_SEC;
+    cout << "Likelihood (Forward step):" << hmm.run_forward_algo() << endl;
+    cout << "Time elapsed: " << total << endl << endl;
+
+    int hidden[n_observations];
+    start = clock();
+    hmm.run_viterbi_algo(hidden);
+    total = double(clock() - start) / CLOCKS_PER_SEC;
+    cout << "Hidden states (Viterbi algorithm) calculated." << endl;
+    cout << "Time elapsed: " << total << endl << endl;
+    //for (auto state: hidden) cout << state << " ";
+    //cout << endl;
+
+    cout << "Fitting HMM (Baum-Welch algorithm):" << endl;
     /// Parameters on first iteration will be generated randomly
-    hmm.run_baum_welch_algo();
+    start = clock();
+    hmm.run_baum_welch_algo(epochs);
+    total = double(clock() - start) / CLOCKS_PER_SEC;
+    cout << "Time elapsed: " << total << endl;
 
     return 0;
 }
