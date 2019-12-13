@@ -12,11 +12,11 @@ namespace Task04
     {
         public static string GetData(String url)
         {
-            HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-            using HttpWebResponse response = request?.GetResponse() as HttpWebResponse;
+            var request = WebRequest.Create(url) as HttpWebRequest;
+            using var response = request?.GetResponse() as HttpWebResponse;
             Stream receiver = response?.GetResponseStream();
 
-            if (response != null && receiver != null && response.StatusCode == HttpStatusCode.OK)
+            if (receiver != null && response?.StatusCode == HttpStatusCode.OK)
             {
                 using StreamReader reader = new StreamReader(receiver, Encoding.GetEncoding(response.CharacterSet));
                 return reader.ReadToEnd();

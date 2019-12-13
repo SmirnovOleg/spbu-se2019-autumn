@@ -13,7 +13,8 @@ namespace Task04
             try
             {
                 string data = HtmlUtils.GetData(url);
-                var matches = Regex.Matches(data, @"<a.*href=""(http|https)://(\S*)""")
+                var matches = 
+                    Regex.Matches(data, @"<a.*href=""(http|https)://(\S*)""")
                     .Select(match => match.Value)
                     .Select(tag =>
                     {
