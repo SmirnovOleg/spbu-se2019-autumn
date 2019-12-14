@@ -53,7 +53,7 @@ void copy_matrix_from_device(T **matrix, T *d_matrix, int rows, int cols) {
 }
 
 
-double hidden_markov_model::run_GPU_forward_algo() {
+double HiddenMarkovMmodel::run_GPU_forward_algo() {
     for (int i = 0; i < n_states; ++i) {
         alpha[0][i] = initial_distribution[i] * emissions[i][observations[0]];
     }
@@ -124,7 +124,7 @@ void make_viterbi_backward_step(double *alpha, double *transitions, double *back
 }
 
 
-void hidden_markov_model::run_GPU_viterbi_algo(int *hidden_states_idxs) {
+void HiddenMarkovMmodel::run_GPU_viterbi_algo(int *hidden_states_idxs) {
     for (int i = 0; i < n_states; ++i) {
         alpha[0][i] = initial_distribution[i] * emissions[i][observations[0]];
     }
@@ -187,7 +187,7 @@ void hidden_markov_model::run_GPU_viterbi_algo(int *hidden_states_idxs) {
 }
 
 
-void hidden_markov_model::run_GPU_baum_welch_algo(int epochs) {
+void HiddenMarkovMmodel::run_GPU_baum_welch_algo(int epochs) {
     generate_random_parameters();
     // Allocate memory
     auto **gamma = new double *[n_observations];

@@ -7,7 +7,7 @@
 using namespace std;
 
 
-hidden_markov_model::hidden_markov_model(int _n_states, int _n_observations, int _observations_dict_size) {
+HiddenMarkovMmodel::HiddenMarkovMmodel(int _n_states, int _n_observations, int _observations_dict_size) {
     n_states = _n_states;
     n_observations = _n_observations;
     observations_dict_size = _observations_dict_size;
@@ -34,7 +34,7 @@ hidden_markov_model::hidden_markov_model(int _n_states, int _n_observations, int
 }
 
 
-void hidden_markov_model::generate_random_parameters() {
+void HiddenMarkovMmodel::generate_random_parameters() {
     random_device device;
     mt19937 gen(device());
     uniform_int_distribution<> distribution(0, 1000);
@@ -72,7 +72,7 @@ void hidden_markov_model::generate_random_parameters() {
 }
 
 
-void hidden_markov_model::generate_random_observations(int *dict) {
+void HiddenMarkovMmodel::generate_random_observations(int *dict) {
     random_device device;
     mt19937 gen(device());
     uniform_int_distribution<> distribution(0, observations_dict_size - 1);
@@ -82,7 +82,7 @@ void hidden_markov_model::generate_random_observations(int *dict) {
 }
 
 
-void hidden_markov_model::print() {
+void HiddenMarkovMmodel::print() {
     cout << "Transitions matrix: \n";
     for (int i = 0; i < n_states; ++i) {
         for (int j = 0; j < n_states; ++j) {

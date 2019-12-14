@@ -7,7 +7,7 @@
 using namespace std;
 
 
-double hidden_markov_model::run_forward_algo() {
+double HiddenMarkovMmodel::run_forward_algo() {
     // alpha[t][i] is the TOTAL probability
     //      of all observations up to time [t] in the hidden state [i]
     for (int i = 0; i < n_states; ++i) {
@@ -29,7 +29,7 @@ double hidden_markov_model::run_forward_algo() {
 }
 
 
-void hidden_markov_model::run_viterbi_algo(int *hidden_states_idxs) {
+void HiddenMarkovMmodel::run_viterbi_algo(int *hidden_states_idxs) {
     // alpha[t][i] is the MOST LIKELY probability 
     //      of all observations up to time [t] in the hidden state [i]
     for (int i = 0; i < n_states; ++i) {
@@ -75,7 +75,7 @@ void hidden_markov_model::run_viterbi_algo(int *hidden_states_idxs) {
 }
 
 
-void hidden_markov_model::run_baum_welch_algo(int epochs) {
+void HiddenMarkovMmodel::run_baum_welch_algo(int epochs) {
     generate_random_parameters();
     // Allocate memory
     auto **gamma = new double *[n_observations];
