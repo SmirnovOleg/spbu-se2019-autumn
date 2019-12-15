@@ -21,7 +21,7 @@ int main() {
         dict[i] = i;
     }
     // Create HMM
-    HiddenMarkovMmodel hmm(n_states, n_observations, observations_dict_size);
+    HiddenMarkovModel hmm(n_states, n_observations, observations_dict_size);
     hmm.generate_random_parameters();
     hmm.generate_random_observations(dict);
     cout << "States: " << n_states << " | Observations: " << n_observations << endl << endl;

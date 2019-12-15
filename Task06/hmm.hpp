@@ -1,4 +1,4 @@
-class HiddenMarkovMmodel {
+class HiddenMarkovModel {
     double **transitions;
     double **emissions;
     double *initial_distribution;
@@ -11,7 +11,7 @@ public:
     int n_observations;
     int observations_dict_size;
 
-    HiddenMarkovMmodel(int n_states, int n_observations, int observations_dict_size);
+    HiddenMarkovModel(int n_states, int n_observations, int observations_dict_size);
     void generate_random_parameters();
     void generate_random_observations(int *dict);
     void print();
