@@ -1,0 +1,64 @@
+Matrix: 10 x 10; 20 experiments:
+
+       Average builtin function time: 0.000005
+    Average sequential function time: 0.000004
+      Average parallel function time: 0.000032
+
+    Correct answer
+
+
+Matrix: 100 x 100; 20 experiments:
+
+       Average builtin function time: 0.000413
+    Average sequential function time: 0.001953
+      Average parallel function time: 0.011891
+
+    Correct answer
+
+
+Matrix: 200 x 200; 20 experiments:
+
+       Average builtin function time: 0.003069
+    Average sequential function time: 0.016285
+      Average parallel function time: 0.086910
+
+    Correct answer
+
+
+Matrix: 500 x 500; 20 experiments:
+
+       Average builtin function time: 0.051936
+    Average sequential function time: 0.260071
+      Average parallel function time: 0.310815
+
+    Correct answer
+
+
+Matrix: 1000 x 1000; 20 experiments:
+
+       Average builtin function time: 0.444747
+    Average sequential function time: 1.945033
+      Average parallel function time: 1.828364
+
+    Correct answer
+
+
+Matrix: 2000 x 2000; 20 experiments:
+
+       Average builtin function time: 3.286809
+    Average sequential function time: 14.585802
+      Average parallel function time: 14.313961
+
+    Correct answer
+
+
+Matrix: 3000 x 3000; 20 experiments:
+
+       Average builtin function time: 11.759540
+    Average sequential function time: 52.909106
+      Average parallel function time: 49.761258
+
+    Correct answer
+
+
+    
